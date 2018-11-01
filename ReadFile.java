@@ -1,0 +1,57 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Vector;
+
+public class ReadFile {
+    private String fileName;
+    
+    public ReadFile(String s) {
+	fileName = s;
+    }
+    
+    public Vector<String> process() {
+	
+	File f = new File(fileName);
+	Scanner sc = null;
+	
+	try {
+	    sc = new Scanner(f);
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	    System.out.println("Is it possible that file "+fileName+" does not exist?");
+	    System.exit(-1);
+	}
+	
+	Vector<String> toR = new Vector<String>();
+	
+	while (sc.hasNext()) {
+	    toR.add(sc.next());
+	}
+	
+	return toR;
+    }
+    
+    public void addFileToDict(CountingDictionary dict){
+	dict.init();
+	for(int i = 0; i < process().size(); i++){
+
+	    dict.insert(process().get(i));
+	    
+	}
+    }
+
+    public void addFileToDict(CountingDictionary diction, CountingDictionary commonWords){
+	diction.init();
+	
+	for(int j = 0; j < process().size(); j++){
+	    if(commonWords.find(process().get(j)) < -1){
+		diction.insert(process().get(j));
+	    }
+	    
+	}
+	
+	
+    }
+    
+}
